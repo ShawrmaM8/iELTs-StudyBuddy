@@ -5,3 +5,4 @@ scikit-learn
 pymupdf 
 python-docx 
 nltk
+pandas

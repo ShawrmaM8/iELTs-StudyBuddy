@@ -6,3 +6,4 @@ pymupdf
 python-docx 
 nltk
 pandas
+numpy

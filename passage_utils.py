@@ -1,6 +1,6 @@
 # Purpose: Handle file reading (with optional translation, PDF reading)
 
-import fitz  # PyMuPDF
+import pymupdf  # PyMuPDF
 from docx import Document
 import nltk
 from nltk.tokenize import sent_tokenize
@@ -40,3 +40,4 @@ def extract_text_from_docx(file):
 
 def split_sentences(text):
     return sent_tokenize(text)
+

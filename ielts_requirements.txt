@@ -1,2 +1,7 @@
-streamlit language-tool-python spacy scikit-learn pymupdf python-docx nltk
-
+streamlit 
+language-tool-python 
+spacy 
+scikit-learn 
+pymupdf 
+python-docx 
+nltk

@@ -4,6 +4,7 @@ import fitz  # PyMuPDF
 from docx import Document
 import nltk
 nltk.download('punkt', quiet=True)  # Quiet to avoid console spam
+nltk.download('stopwords', quiet=True)
 from nltk.tokenize import sent_tokenize
 
 def extract_text(file):
@@ -29,4 +30,5 @@ def extract_text_from_docx(file):
     return "\n".join([para.text for para in doc.paragraphs])
 
 def split_sentences(text):
+
     return sent_tokenize(text)

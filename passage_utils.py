@@ -28,7 +28,8 @@ def extract_text(file):
         raise ValueError("Unsupported file type")
 
 def extract_text_from_pdf(file):
-    doc = fitz.open(stream=file.read(), filetype='pdf')
+    # Use pymupdf directly
+    doc = pymupdf.open(stream=file.read(), filetype='pdf')
     text = ''
     for page in doc:
         text += page.get_text()
@@ -40,4 +41,3 @@ def extract_text_from_docx(file):
 
 def split_sentences(text):
     return sent_tokenize(text)
-

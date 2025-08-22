@@ -3,9 +3,18 @@
 import fitz  # PyMuPDF
 from docx import Document
 import nltk
-nltk.download('punkt', quiet=True)  # Quiet to avoid console spam
-nltk.download('stopwords', quiet=True)
 from nltk.tokenize import sent_tokenize
+
+# Ensure required NLTK resources are available
+def setup_nltk():
+    resources = ["punkt", "stopwords"]
+    for resource in resources:
+        try:
+            nltk.data.find(f"tokenizers/{resource}" if resource == "punkt" else f"corpora/{resource}")
+        except LookupError:
+            nltk.download(resource, quiet=True)
+
+setup_nltk()
 
 def extract_text(file):
     """Detect file type and extract text"""
@@ -17,7 +26,7 @@ def extract_text(file):
         return file.read().decode('utf-8')
     else:
         raise ValueError("Unsupported file type")
-    
+
 def extract_text_from_pdf(file):
     doc = fitz.open(stream=file.read(), filetype='pdf')
     text = ''
@@ -30,5 +39,4 @@ def extract_text_from_docx(file):
     return "\n".join([para.text for para in doc.paragraphs])
 
 def split_sentences(text):
-
     return sent_tokenize(text)

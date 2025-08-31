@@ -7,24 +7,25 @@ import io
 def extract_text(file):
     """Detect file type and extract text with error handling"""
     try:
+        # Read file content once and store in memory
+        file_content = file.read()
+        file.seek(0)  # Reset file pointer for future reads
+        
         if file.type == 'application/pdf':
-            return extract_text_from_pdf(file)
+            return extract_text_from_pdf(file_content)
         elif file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-            return extract_text_from_docx(file)
+            return extract_text_from_docx(file_content)
         elif file.type == 'text/plain':
-            return file.read().decode('utf-8')
+            return file_content.decode('utf-8')
         else:
             raise ValueError("Unsupported file type")
     except Exception as e:
         raise Exception(f"Error extracting text: {str(e)}")
 
-def extract_text_from_pdf(file):
+def extract_text_from_pdf(file_content):
     """Extract text from PDF using pymupdf"""
     try:
-        # Reset file pointer to beginning
-        file.seek(0)
-        file_bytes = file.read()
-        doc = fitz.open(stream=file_bytes, filetype='pdf')
+        doc = fitz.open(stream=file_content, filetype='pdf')
         text = ''
         for page in doc:
             text += page.get_text()
@@ -33,11 +34,10 @@ def extract_text_from_pdf(file):
     except Exception as e:
         raise Exception(f"PDF extraction failed: {str(e)}")
 
-def extract_text_from_docx(file):
+def extract_text_from_docx(file_content):
     """Extract text from DOCX file"""
     try:
-        file.seek(0)
-        doc = docx.Document(io.BytesIO(file.read()))
+        doc = docx.Document(io.BytesIO(file_content))
         text = '\n'.join([paragraph.text for paragraph in doc.paragraphs])
         return text
     except Exception as e:
